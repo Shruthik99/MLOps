@@ -1,4 +1,4 @@
-**Iris Species Prediction API with Random Forest**
+## Iris Species Prediction API with Random Forest ##
 ## Overview
 
 In this Lab, we will learn how to expose ML models as APIs using [FastAPI](https://fastapi.tiangolo.com/) and [uvicorn](https://www.uvicorn.org/).

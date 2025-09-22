@@ -71,6 +71,7 @@ or http://localhost:8000/docs
     API Documentation
 You can also test out the results of your endpoints by interacting with them. Click on the dropdown button of your endpoint -> Try it out -> Fill the Request body -> Click on Execute button.
 <img width="661" height="489" alt="image" src="https://github.com/user-attachments/assets/c71fceb7-7bad-4a89-b9a1-04c69952594b" />
+
 You can also use other tools like Postman for API testing.
 
 - In this command, **main** is the name of the Python file containing your app instance (without the .py extension), and **app** is the name of the instance itself. The **--reload** flag tells uvicorn to restart the server whenever code changes are detected, which is useful during development and should not be used in production.

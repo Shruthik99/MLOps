@@ -1,19 +1,14 @@
-
----
-- Video Explanation: [FastAPI lab](https://www.youtube.com/watch?v=KReburHqRIQ&list=PLcS4TrUUc53LeKBIyXAaERFKBJ3dvc9GZ&index=4)
-- Blog: [FastAPI Lab-1](https://www.mlwithramin.com/blog/fastapi-lab1)
-
----
-
+FastAPI Lab — Random Forest model
 ## Overview
 
 In this Lab, we will learn how to expose ML models as APIs using [FastAPI](https://fastapi.tiangolo.com/) and [uvicorn](https://www.uvicorn.org/).
 1. **FastAPI**: FastAPI is a modern, fast (high-performance), web framework for building APIs with Python based on standard Python type hints.
 2. **uvicorn**: Uvicorn is an [Asynchronous Server Gateway Interface - ASGI](https://youtu.be/vKjCkeJGbNk) web server implementation for Python. It is often used to serve FastAPI aplications.
 
-The workflow involves the following steps:
-1. Training a Decision Tree Classifier on Iris Dataset.
-2. Serving the trained model as an API using FastAPI and uvicorn.
+What this lab does
+1. Train a Random Forest Classifier on the classic Iris dataset.
+2. Save the trained model to model/iris_model.pkl.
+3. Serve a /predict endpoint that returns the predicted Iris class as an integer.
 
 ## Setting up the lab
 
@@ -44,11 +39,11 @@ Note:
 
 ## Running the Lab
 
-1. First step is to train a Decision Tree Classifier(Although you have **`model/iris_model.pkl`** when you cloned from the repo, let's create a new model). To do this, move into **src/** folder with
+1. First step is to train a Random Forest Classifier. To do this, move into **src/** folder with
     ```bash
     cd src
     ```
-2. To train the Decision Tree Classifier, run:
+2. To train the Random Forest Classifier, run:
     ```bash
     python train.py
     ```
@@ -56,15 +51,11 @@ Note:
     ```bash
     uvicorn app:main --reload
     ```
-4. Testing endpoints - to view the documentation of your api model you can use [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) (or) [http://localhost:8000/docs](http://localhost:8000/docs) after you run you run your FastAPI app.
-    
-![API page](assets/docs.png)
-   
-You can also test out the results of your endpoints by interacting with them. Click on the dropdown button of your endpoint -> Try it out -> Fill the Request body -> Click on Execute button.
+4. Testing endpoints – view the interactive API docs after you run the FastAPI app:
 
-![API response](assets/api_response.png)
+http://127.0.0.1:8000/docs
 
-- You can also use other tools like [Postman](https://www.postman.com/) for API testing.
+or http://localhost:8000/docs
 
 ### FastAPI Syntax
 
@@ -77,6 +68,11 @@ You can also test out the results of your endpoints by interacting with them. Cl
     ```
     uvicorn main:app --reload
     ```
+    API Documentation
+You can also test out the results of your endpoints by interacting with them. Click on the dropdown button of your endpoint -> Try it out -> Fill the Request body -> Click on Execute button.
+<img width="661" height="489" alt="image" src="https://github.com/user-attachments/assets/c71fceb7-7bad-4a89-b9a1-04c69952594b" />
+You can also use other tools like Postman for API testing.
+
 - In this command, **main** is the name of the Python file containing your app instance (without the .py extension), and **app** is the name of the instance itself. The **--reload** flag tells uvicorn to restart the server whenever code changes are detected, which is useful during development and should not be used in production.
 - All the functions which should be used as API should be prefixed by **@app.get("/followed_by_endpoint_name")** or **@app.post("/followed_by_endpoint_name")**. This particular syntax is used to define route handlers (which function should handle an incoming request based on the URL and HTTP method), which are the functions responsible for responding to client requests to a given endpoint.
     1. **Decorator (@)**: This symbol is used to define a decorator, which is a way to dynamically add functionality to functions or methods. In FastAPI, decorators are used to associate a function with a particular HTTP method and path.

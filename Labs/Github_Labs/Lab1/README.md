@@ -1,4 +1,4 @@
-# Credit Card Fraud Detection Model - MLOps Lab 1 Modification
+# Credit Card Fraud Detection Model - MLOps Lab 1 
 
 ## Overview
 This project modifies the original MLOps Lab 1 (calculator application) to implement a **Credit Card Fraud Detection System** using XGBoost. This modification demonstrates practical MLOps practices in a financial risk management context, featuring automated testing, CI/CD pipelines, and model deployment readiness.

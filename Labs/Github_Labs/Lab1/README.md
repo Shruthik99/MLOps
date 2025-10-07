@@ -17,20 +17,20 @@ This project aims to implement a **Credit Card Fraud Detection System** using XG
 
 ```
 Lab1/
-├── .github/
-│   └── workflows/
-│       ├── pytest_action.yml      # GitHub Actions for pytest
-│       └── unittest_action.yml    # GitHub Actions for unittest
+├── data/                          # Data folder (for future datasets)
 ├── src/
 │   ├── __init__.py
 │   └── model.py                   # Fraud detection model
 ├── test/
 │   ├── test_pytest.py             # Pytest tests
 │   └── test_unittest.py           # Unittest tests
-├── demo.py                        # Demo script
+├── workflows/
+│   ├── pytest_action.yml          # GitHub Actions for pytest
+│   └── unittest_action.yml        # GitHub Actions for unittest
+├── .gitignore
 ├── README.md
-├── requirements.txt
-└── .gitignore.txt
+├── demo.py                        # Demo script
+└── requirements.txt
 ```
 
 ## 🚀 Features

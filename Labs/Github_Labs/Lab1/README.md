@@ -1,4 +1,4 @@
-# Credit Card Fraud Detection Model - MLOps GitHub Lab 1 
+# Credit Card Fraud Detection Model - MLOps github Lab 1 
 
 ## Overview
 This project aims to implement a **Credit Card Fraud Detection System** using XGBoost. This modification demonstrates practical MLOps practices in a financial risk management context, featuring automated testing, CI/CD pipelines, and model deployment readiness.

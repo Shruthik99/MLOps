@@ -1,1 +1,12 @@
-pytest 
+# Testing
+pytest
+pytest-cov
+
+# Machine Learning  
+numpy
+pandas
+scikit-learn
+xgboost
+
+# Model persistence
+joblib

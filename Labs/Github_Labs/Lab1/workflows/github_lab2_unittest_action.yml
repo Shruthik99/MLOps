@@ -1,33 +1,60 @@
-name: Python Unittests
+name: Fraud Detection Model - Unittest
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-
+    
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
-
+      uses: actions/checkout@v3
+    
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
-        python-version: 3.8
-
+        python-version: '3.9'
+    
+    - name: Cache pip packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
     - name: Install dependencies
-      run: pip install -r requirements.txt
-
-    - name: Run unittests
-      run: python -m unittest test.test_unittest
-
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run unittest tests
+      run: |
+        python -m unittest test.test_unittest -v
+      working-directory: .
+      continue-on-error: false
+    
+    - name: Run unittest with XML output
+      run: |
+        pip install unittest-xml-reporting
+        python -m xmlrunner test.test_unittest -o test-reports
+      continue-on-error: true
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: unittest-results
+        path: test-reports/
+    
     - name: Notify on success
       if: success()
-      run: echo "Unit tests passed successfully"
-
+      run: echo "✅ All Fraud Detection Model unittest tests passed!"
+    
     - name: Notify on failure
       if: failure()
-      run: echo "Unit tests failed"
+      run: echo "❌ Fraud Detection Model unittest tests failed. Please review the test output."

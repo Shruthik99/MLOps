@@ -1,19 +1,33 @@
-# 🏙️ Smart City Energy Analysis Pipeline
+# 🏙️ Smart City Energy Analysis 
 
 ## MLOps Implementation with Apache Airflow
 
-###  Project Overview
+### Project Overview
+This project transforms the basic Airflow clustering lab into a comprehensive Smart City Energy Management system that analyzes energy consumption patterns across urban zones using multiple machine learning algorithms.
+<img width="1889" height="1089" alt="image" src="https://github.com/user-attachments/assets/4a3fd06b-f9cf-450e-ba8c-666712805349" />
 
-This project transforms the basic K-Means clustering lab into a sophisticated **Smart City Energy Consumption Pattern Analysis Pipeline**. Instead of simple clustering on standard datasets, this implementation analyzes IoT sensor data from smart buildings to identify consumption patterns, detect anomalies, and provide optimization recommendations for sustainable urban energy management.
 
-###  Key Innovations
+### Key Enhancements
 
-#### Beyond Basic Requirements
-- **Multi-Model Approach**: Implements 3 clustering algorithms (K-Means, Gaussian Mixture Models, Hierarchical)
-- **Advanced Optimization**: 4 methods for optimal cluster selection (Elbow, Silhouette, Gap Statistic, BIC)
-- **Ensemble Anomaly Detection**: Combines Isolation Forest, LOF, and One-Class SVM
-- **Production-Ready**: Model versioning, export formats, and API specifications
-- **Real-World Application**: Addresses actual smart city challenges with business value
+4 ML Algorithms vs 1 in original lab
+Anomaly Detection for energy theft/malfunction
+PCA Dimensionality Reduction for scalability
+Real-world Context with smart city data
+Production Features including error handling and JSON reports
+
+### Technical Stack
+
+Orchestration: Apache Airflow 2.9.2
+Containerization: Docker & Docker Compose
+ML Framework: Scikit-learn
+Data Processing: Pandas, NumPy
+Algorithms: K-Means, DBSCAN, Hierarchical Clustering, Isolation Forest
+
+### Installation & Setup
+Prerequisites
+
+Docker Desktop installed and running
+4GB+ RAM allocated to Docker
 
 ### Dataset & Scale
 

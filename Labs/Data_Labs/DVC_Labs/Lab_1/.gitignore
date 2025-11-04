@@ -1,0 +1,27 @@
+# Python
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.Python
+
+# DVC
+/data/*.csv
+/data/*.pkl
+/models/*.pkl
+/models/*.h5
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+
+# Credentials (IMPORTANT!)
+gcp-credentials.json
+*.json
+
+# OS
+.DS_Store
+Thumbs.db

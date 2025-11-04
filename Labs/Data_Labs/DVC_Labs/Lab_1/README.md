@@ -1,54 +1,232 @@
-## Data Version Control (DVC)
+# DVC Lab 1: Data Version Control with Google Cloud Storage
 
-- [DVC](https://dvc.org/) is an open-source tool that serves as a powerful asset in the machine learning project toolkit, with a primary focus on data versioning.
-- **Data versioning** is a critical aspect of any ML project. It allows you to track changes and updates in your datasets over time, ensuring you can always recreate, compare, and reference specific dataset versions used in your experiments.
-- In this lab tutorial, we will be utilizing DVC with Google Cloud Storage to enhance data versioning capabilities, ensuring efficient data management and collaboration within your machine learning project.
-### Creating a Google Cloud Storage Bucket
-1. Navigate to [Google Cloud Console](https://console.cloud.google.com/).
-2. Ensure you've created a new project specifically for this lab.
-3. In the Navigation menu, select "Cloud Storage," then go to "Buckets," and click on "Create a new bucket."
-4. Assign a unique name to your bucket.
-5. Select the region as `us-east1`
-6. Proceed by clicking "Continue" until your new bucket is successfully created.
-7. Once the bucket is created, we need to get the credentials to connect the GCP remote to the project. Go to the `IAM & Admin` service and go to `Service Accounts` in the left sidebar.
-8. Click the `Create Service Account` button to create a new service account that you'll use to connect to the DVC project in a bit. Now you can add the name and ID for this service account and keep all the default settings. We've chosen `lab2` for the name. Click `Create and Continue` and it will show the permissions settings. Select `Owner` in the dropdown and click `Continue`.
-9. Then add your user to have access to the service account and click `Done`. Finally, you'll be redirected to the `Service accounts` page. You’ll see your service account and you’ll be able to click on `Actions` and go to where you `Manage keys` for this service account. 
-10. Once you’ve been redirected, click the `Add Key` button and this will bring up the credentials you need to authenticate your GCP account with your project. Proceed by downloading the credentials in JSON format and securely store the file. This file will serve as the authentication mechanism for DVC when connecting to Google Cloud.
-### Installing DVC with Google Cloud Support
-- Ensure you have DVC with Google Cloud support installed on your system by using the following command:
-	`pip install dvc[gs]`
-- Note that, depending on your chosen [remote storage](https://dvc.org/doc/user-guide/data-management/remote-storage), you may need to install optional dependencies such as `[s3]`, `[azure]`, `[gdrive]`, `[gs]`, `[oss]`, `[ssh]`. To include all optional dependencies, use `[all]`.
-- Run this command to setup google cloud bucket as your storage `dvc remote add -d myremote gs://<mybucket>`
-- In order for DVC to be able to push and pull data from the remote, you need to have valid GCP credentials.
-- Run the following command for authentication `dvc remote modify --lab2 credentialpath <YOUR JSON TOKEN LOCATION>`
-### Tracking Data with DVC
-- Ensure you have downloaded the [required data](https://www.kaggle.com/datasets/arjunbhasin2013/ccdata) and placed it in the "data" folder, renaming the file to "CC_GENERAL.csv."
-- To initiate data tracking, execute the following steps:
-	1. Run the `dvc init` command to initialize DVC for your project. This will generate a `.dvc` file that stores metadata and configuration details. Your `.dvc` file config metadata will look something like this
-	```
-    [core]
-        remote = lab2
-    ['remote "lab2"']
-        url = gs://ie7374
-	```
+**Lab**: Data Version Control (DVC) Implementation  
+**Dataset**: Wine Quality Dataset  
+**Cloud Provider**: Google Cloud Platform (GCS)
 
-	dvc remote modify --git-action-gcp credentialpath git-action-gcp git-action-gcp-3e47dbac54ff.json 
-	2. Next, use `dvc add data/CC_GENERAL.csv` to instruct DVC to start tracking this specific dataset.
-	3. To ensure version control, add the generated `.dvc` file to your Git repository with `git add data/CC_GENERAL_csv.dvc`.
-	4. Also, include the `.gitignore` file located in the "data" folder in your Git repository by running `git add data/.gitignore`.
-	5. To complete the process, commit these changes with Git to record the dataset tracking configuration.
+---
 
-- To push your data to the remote storage in Google Cloud, use the following DVC command: `dvc push` This command will upload your data to the Google Cloud Storage bucket specified in your DVC configuration, making it accessible and versioned in the cloud.
+## 📋 Overview
 
-### Handling Data Changes and Hash Updates
-Whenever your dataset undergoes changes, DVC will automatically compute a new hash for the updated file. Here's how the process works:
-- **Update the Dataset:** Replace the existing "CC_GENERAL.csv" file in the "data" folder with the updated version.
-- **Update DVC Tracking:** Execute `dvc add data/CC_GENERAL.csv` again to update DVC with the new version of the dataset. When DVC computes the hash for the updated file, it will be different from the previous hash, reflecting the changes in the dataset.
-- **Commit and Push:** Commit the changes with Git and push them to your Git repository. This records the update to the dataset, including the new hash.
-- **Storage in Google Cloud:** When you run dvc push, DVC uploads the updated dataset to the Google Cloud Storage bucket specified in your DVC configuration. Each version of the dataset is stored as a distinct object within the bucket, organized for easy retrieval.
-#### Reverting to Previous Versions with Hashes
-To revert to a previous dataset version:
-- **Checkout Git Commit:** Use Git to checkout the specific commit where the desired dataset version was last committed. For example, run `git checkout <commit-hash>`
-- **Use DVC:** After checking out the Git commit, use DVC to retrieve the dataset version corresponding to that commit by running `dvc checkout`. DVC uses the stored hash to identify and fetch the correct dataset version associated with that commit.
+This lab demonstrates the implementation of Data Version Control (DVC) for machine learning projects. We use DVC to:
+- Version control datasets
+- Track ML models
+- Store data remotely on Google Cloud Storage
+- Maintain reproducibility across experiments
 
-> 💡You can follow [this](https://www.youtube.com/watch?v=kLKBcPonMYw&list=PL7WG7YrwYcnDb0qdPl9-KEStsL-3oaEjg&pp=iAQB) tutorial to learn about DVC in detail.
+## 🎯 Objectives
+
+1. Set up DVC with Google Cloud Storage as remote storage
+2. Track and version a wine quality dataset
+3. Build a simple classification model
+4. Demonstrate data versioning capabilities
+5. Show how to revert to previous data versions
+
+## 📊 Dataset
+
+**Wine Quality Dataset** from UCI Machine Learning Repository
+- **Source**: [UCI ML Repository](https://archive.ics.uci.edu/ml/datasets/wine+quality)
+- **Type**: Red Wine Quality
+- **Samples**: 1,599 wines
+- **Features**: 11 physicochemical features
+- **Target**: Wine quality classification (Good/Bad wine based on quality score)
+
+### Features:
+- Fixed acidity
+- Volatile acidity
+- Citric acid
+- Residual sugar
+- Chlorides
+- Free sulfur dioxide
+- Total sulfur dioxide
+- Density
+- pH
+- Sulphates
+- Alcohol
+
+## 🏗️ Project Structure
+```
+Lab_1/
+│
+├── data/                              # Data directory 
+│   ├── wine_quality_raw.csv          # Raw dataset
+│   ├── X_train.csv                   # Processed training features
+│   ├── X_test.csv                    # Processed test features
+│   ├── y_train.csv                   # Training labels
+│   ├── y_test.csv                    # Test labels
+│   ├── *.csv.dvc                     # DVC metadata files
+│   └── .gitignore                    # Git ignore for data files
+│
+├── models/                            # Model directory 
+│   ├── wine_quality_model.pkl        # Trained model
+│   ├── scaler.pkl                    # Feature scaler
+│   ├── metrics.json                  # Model performance metrics
+│   ├── *.pkl.dvc                     # DVC metadata files
+│   └── .gitignore                    # Git ignore for model files
+│
+├── src/                               # Source code
+│   ├── __init__.py
+│   ├── data_preprocessing.py         # Data preprocessing pipeline
+│   ├── train_model.py                # Model training script
+│   └── update_dataset.py             # Dataset modification script
+│
+├── .dvc/                              # DVC configuration
+│   ├── config                        # DVC remote configuration
+│   └── .gitignore
+│
+├── venv/                              # Virtual environment (not tracked)
+├── .gitignore                         # Git ignore file
+├── README.md                          # This file
+├── requirements.txt                   # Python dependencies
+└── gcp-credentials.json              # GCP credentials (not tracked!)
+```
+
+## 🛠️ Setup Instructions
+
+### Prerequisites
+- Python 3.8+
+- Git
+- Google Cloud Platform account
+- VSCode (recommended)
+
+### Installation
+
+1. **Configure GCP credentials**:
+   - Place your `gcp-credentials.json` in the project root
+   - Update `.dvc/config` with your bucket name
+
+2. **Initialize DVC** :
+```bash
+   dvc init
+   dvc remote add -d myremote gs://your-bucket-name
+   dvc remote modify myremote credentialpath gcp-credentials.json
+```
+
+## 🚀 Usage
+
+### 1. Download and Preprocess Data
+```bash
+python src/data_preprocessing.py
+```
+
+### 2. Train Model
+```bash
+python src/train_model.py
+```
+
+### 3. Track Data with DVC
+```bash
+dvc add data/wine_quality_raw.csv
+dvc add models/wine_quality_model.pkl
+```
+
+### 4. Commit to Git
+```bash
+git add data/*.dvc models/*.dvc .dvc/
+git commit -m "Add dataset and model"
+```
+
+### 5. Push to DVC Remote
+```bash
+dvc push
+```
+
+### 6. Pull Data (on new machine or after checkout)
+```bash
+dvc pull
+```
+
+## 🔄 Versioning Workflow
+
+### Making Changes
+```bash
+# 1. Modify data or retrain model
+python src/update_dataset.py
+python src/train_model.py
+
+# 2. Track changes
+dvc add data/wine_quality_raw.csv
+dvc add models/wine_quality_model.pkl
+
+# 3. Commit
+git add data/*.dvc models/*.dvc
+git commit -m "Update: description of changes"
+
+# 4. Push
+dvc push
+```
+
+### Reverting to Previous Version
+```bash
+# 1. Find commit hash
+git log --oneline
+
+# 2. Checkout commit
+git checkout <commit-hash>
+
+# 3. Restore data
+dvc checkout
+```
+
+## 📈 Model Performance
+
+**Initial Model Results**:
+- Algorithm: Random Forest Classifier
+- Accuracy: ~XX% (will vary based on your run)
+- Features: 11 physicochemical properties
+- Task: Binary classification (Good/Bad wine)
+
+Metrics are saved in `models/metrics.json` after each training run.
+
+## 🔑 Key DVC Commands
+
+| Command | Description |
+|---------|-------------|
+| `dvc init` | Initialize DVC in project |
+| `dvc add <file>` | Start tracking a file |
+| `dvc push` | Upload data to remote storage |
+| `dvc pull` | Download data from remote storage |
+| `dvc checkout` | Restore files to match current Git commit |
+| `dvc status` | Check status of tracked files |
+| `dvc remote list` | List configured remotes |
+
+## 📝 Key Learnings
+
+1. **Data Versioning**: DVC creates hash-based identifiers for datasets
+2. **Remote Storage**: Large files stored in GCS, not Git
+3. **Git Integration**: DVC metadata (.dvc files) tracked in Git
+4. **Reproducibility**: Exact dataset versions tied to code versions
+5. **Collaboration**: Team members can sync data via `dvc pull`
+
+## 🔒 Security Notes
+
+- ⚠️ **NEVER commit** `gcp-credentials.json` to Git
+- ⚠️ Credentials file is in `.gitignore`
+- ⚠️ Rotate service account keys regularly
+- ⚠️ Use minimal IAM permissions (Storage Admin, not Owner)
+
+
+### DVC push fails
+```bash
+# Check credentials
+dvc remote modify myremote credentialpath gcp-credentials.json
+
+# Verify bucket access
+gsutil ls gs://your-bucket-name
+```
+
+### Git tracking data files
+```bash
+# Ensure data files are in .gitignore
+git rm --cached data/*.csv
+git add data/.gitignore
+```
+
+## 📚 References
+
+- [DVC Documentation](https://dvc.org/doc)
+- [Google Cloud Storage](https://cloud.google.com/storage/docs)
+- [Wine Quality Dataset](https://archive.ics.uci.edu/ml/datasets/wine+quality)
+
+
+

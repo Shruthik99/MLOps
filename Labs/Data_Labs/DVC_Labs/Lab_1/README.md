@@ -1,4 +1,4 @@
-# DVC Lab 1: Data Version Control with Google Cloud Storage
+# Lab 1: Wine Quality Classification with DVC and Google Cloud Storage
 
 **Lab**: Data Version Control (DVC) Implementation  
 **Dataset**: Wine Quality Dataset  

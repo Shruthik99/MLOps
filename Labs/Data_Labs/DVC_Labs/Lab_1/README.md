@@ -48,37 +48,49 @@ This lab demonstrates the implementation of Data Version Control (DVC) for machi
 ```
 Lab_1/
 │
-├── data/                              # Data directory 
-│   ├── wine_quality_raw.csv          # Raw dataset
-│   ├── X_train.csv                   # Processed training features
-│   ├── X_test.csv                    # Processed test features
-│   ├── y_train.csv                   # Training labels
-│   ├── y_test.csv                    # Test labels
-│   ├── *.csv.dvc                     # DVC metadata files
-│   └── .gitignore                    # Git ignore for data files
+├── .dvc/                              # DVC configuration directory
+│   ├── cache/                        # DVC cache
+│   ├── tmp/                          # Temporary DVC files
+│   ├── .gitignore              
+│   ├── .gitkeep                      
+│   └── config                        # DVC remote configuration 
 │
-├── models/                            # Model directory 
-│   ├── wine_quality_model.pkl        # Trained model
-│   ├── scaler.pkl                    # Feature scaler
-│   ├── metrics.json                  # Model performance metrics
-│   ├── *.pkl.dvc                     # DVC metadata files
-│   └── .gitignore                    # Git ignore for model files
+├── data/                              # Data directory 
+│   ├── .gitignore                    
+│   ├── .gitkeep                      
+│   ├── wine_quality_raw.csv          # Raw dataset (ignored by Git)
+│   ├── wine_quality_raw.csv.dvc      # DVC metadata for raw data
+│   ├── X_train.csv                   # Processed training features (ignored by Git)
+│   ├── X_train.csv.dvc               # DVC metadata for training features
+│   ├── X_test.csv                    # Processed test features (ignored by Git)
+│   ├── X_test.csv.dvc                # DVC metadata for test features
+│   ├── y_train.csv                   # Training labels (ignored by Git)
+│   ├── y_train.csv.dvc               # DVC metadata for training labels
+│   ├── y_test.csv                    # Test labels (ignored by Git)
+│   ├── y_test.csv.dvc                # DVC metadata for test labels
+│   ├── data.txt                      # Additional data file (ignored by Git)
+│   └── data.txt.dvc                  # DVC metadata for data.txt
+│
+├── models/                            # Model directory (tracked by DVC)
+│   ├── .gitignore                    # Ignores actual model files from Git
+│   ├── .gitkeep                      # Keeps directory structure in Git
+│   ├── wine_quality_model.pkl        # Trained model (ignored by Git)
+│   ├── wine_quality_model.pkl.dvc    # DVC metadata for model
+│   ├── scaler.pkl                    # Feature scaler (ignored by Git)
+│   ├── scaler.pkl.dvc                # DVC metadata for scaler
+│   └── metrics.json                  # Model performance metrics
 │
 ├── src/                               # Source code
-│   ├── __init__.py
+│   ├── __init__.py                   # Makes src a Python package
 │   ├── data_preprocessing.py         # Data preprocessing pipeline
 │   ├── train_model.py                # Model training script
 │   └── update_dataset.py             # Dataset modification script
 │
-├── .dvc/                              # DVC configuration
-│   ├── config                        # DVC remote configuration
-│   └── .gitignore
-│
-├── venv/                              # Virtual environment (not tracked)
+├── .dvcignore                         # DVC ignore patterns
 ├── .gitignore                         # Git ignore file
-├── README.md                          # This file
-├── requirements.txt                   # Python dependencies
-└── gcp-credentials.json              # GCP credentials (not tracked!)
+├── README.md                          # Project documentation
+└── requirements.txt                   # Python dependencies
+
 ```
 
 ## 🛠️ Setup Instructions

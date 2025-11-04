@@ -1,0 +1,5 @@
+[core]
+    remote = myremote
+['remote "myremote"']
+    url = gs://dvc-lab1
+    credentialpath = C:\Users\shrut\Desktop\mlops_repo\MLOps\Labs\Data_Labs\DVC_Labs\Lab_1\gcp-credentials.json

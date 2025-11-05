@@ -1,23 +1,23 @@
-# Credit Card Fraud Detection Model - MLOps github Lab 1 
+# Credit Card Fraud Detection Model - MLOps Github Lab 1 
 
 ## Overview
-This project aims to implement a **Credit Card Fraud Detection System** using XGBoost. This modification demonstrates practical MLOps practices in a financial risk management context, featuring automated testing, CI/CD pipelines, and model deployment readiness.
+This project aims to implement a **Credit Card Fraud Detection System** using XGBoost. This demonstrates practical MLOps practices in a financial risk management context, featuring automated testing, CI/CD pipelines, and model deployment readiness.
 
-## 🎯 Key Modifications from Original Lab
+# 🎯 Key Features
 
-| Original Lab | This Modification |
-|-------------|-------------------|
-| Simple calculator with arithmetic functions | XGBoost-based fraud detection model |
-| Basic function testing | Comprehensive ML model testing |
-| Simple CI/CD | Enhanced CI/CD with coverage reports and multi-version testing |
-| No data handling | Data preprocessing, scaling, and synthetic data generation |
-| No model persistence | Model serialization and loading capabilities |
+| Feature Category | Description |
+|-----------------|-------------|
+| **Model Implementation** | XGBoost-based fraud detection model |
+| **Testing Framework** | Comprehensive ML model testing |
+| **CI/CD Pipeline** | Enhanced CI/CD with coverage reports and multi-version testing |
+| **Data Processing** | Data preprocessing, scaling, and synthetic data generation |
+| **Model Persistence** | Model serialization and loading capabilities |
 
 ## 📁 Project Structure
 
 ```
 Lab1/
-├── data/                          # Data folder (for future datasets)
+├── data/                          # Data folder 
 ├── src/
 │   ├── __init__.py
 │   └── model.py                   # Fraud detection model
